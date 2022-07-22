@@ -22,13 +22,13 @@ public class ListenableFutureAdapter<T> implements BaseAdapter<T> {
 
     @Override
     public Future<T> convert() {
-        return new ListenableFutureFutureHandler();
+        return new ListenableFutureHandler();
     }
 
     /**
      * 处理器
      */
-    class ListenableFutureFutureHandler implements ListenableFuture<T> {
+    class ListenableFutureHandler implements ListenableFuture<T> {
 
         @Override
         public void addListener(Runnable runnable, Executor executor) {
