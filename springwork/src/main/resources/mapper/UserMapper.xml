@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wuhen.springwork.dao.UserMapper">
+
+    <insert id="saveUser" parameterType="user" useGeneratedKeys="true" keyProperty="uid">
+        insert into users(name,username,sex,description) values (#{name},#{username},#{sex},#{description})
+    </insert>
+
+    <delete id="deleteUser" parameterType="long">
+        delete from users where uid = #{uid}
+    </delete>
+
+    <update id="updateUser" parameterType="user">
+        update users set
+        <if test="name != null">
+            name = #{name},
+        </if>
+        <if test="username != null">
+            username = #{username},
+        </if>
+        <if test="sex != 0">
+            sex = #{sex},
+        </if>
+        description = #{description}
+        where uid = #{uid}
+    </update>
+
+    <select id="queryUserList" resultType="user">
+        select uid,name,username from users
+    </select>
+
+    <resultMap id="userDetailMap" type="user">
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="queryUserDetailByUid" parameterType="long" resultMap="userDetailMap" >
+        select uid,name,username,sex,description,create_time,update_time from users where uid = #{uid}
+    </select>
+
+
+    <select id="queryUserDetailByUsername" parameterType="string" resultMap="userDetailMap">
+        select uid,name,username,sex,description,create_time,update_time from users where username = #{username}
+    </select>
+
+</mapper>
